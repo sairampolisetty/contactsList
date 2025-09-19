@@ -13,9 +13,16 @@ function ContactList() {
 
     async function fetchContacts() {
         setIsLoading(true);
-        const res = await fetch('https://contactslist-6v83.onrender.com/contacts');
-        const data = await res.json();
-        setContacts(data);
+        try {
+            const res = await fetch('https://contactslist-6v83.onrender.com/contacts');
+            const data = await res.json();
+            // Debug API data shape
+            console.log('Fetched data:', data);
+            // Always use array, no matter the API format (array or {contacts: []})
+            setContacts(Array.isArray(data) ? data : (data.contacts || []));
+        } catch (error) {
+            setContacts([]); // fallback to empty if fetch fails
+        }
         setIsLoading(false);
     }
 
@@ -29,10 +36,12 @@ function ContactList() {
         }
     }
 
-    const totalPages = Math.ceil(contacts.length / limit);
+    // Always work only with an array!
+    const arrContacts = Array.isArray(contacts) ? contacts : [];
+    const totalPages = Math.max(1, Math.ceil(arrContacts.length / limit));
     const startIndex = (page - 1) * limit;
     const endIndex = startIndex + limit;
-    const pageContacts = contacts.slice(startIndex, endIndex);
+    const pageContacts = arrContacts.slice(startIndex, endIndex);
 
     return (
         <div className="w-full">
@@ -40,7 +49,7 @@ function ContactList() {
             {isLoading ? (
                 <div className="text-center my-4"><Loader /></div>
             ) : (
-                <div className="border-2 border-darkgray-200 rounded-lg overflow-x-auto w-full">
+                <div className="border-2 border-gray-200 rounded-lg overflow-x-auto w-full">
                     <table className="min-w-full border-collapse border border-gray-200 text-sm sm:text-base rounded-lg overflow-hidden">
                         <thead>
                             <tr className="bg-gray-100">
@@ -72,14 +81,14 @@ function ContactList() {
             )}
 
             <div className="flex gap-2 mt-2 justify-center">
-                <button 
-                    onClick={() => setPage(page - 1)} 
+                <button
+                    onClick={() => setPage(page - 1)}
                     disabled={page === 1}
                     className="px-4 py-1 bg-gray-300 rounded disabled:opacity-50"
                 >Prev</button>
                 <span className="text-sm sm:text-base">Page {page} of {totalPages}</span>
-                <button 
-                    onClick={() => setPage(page + 1)} 
+                <button
+                    onClick={() => setPage(page + 1)}
                     disabled={page === totalPages}
                     className="px-4 py-1 bg-gray-300 rounded disabled:opacity-50"
                 >Next</button>
