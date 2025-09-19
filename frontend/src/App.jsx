@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       <h1
-        className="text-center text-base sm:text-lg md:text-2xl lg:text-3xl text-blue-600 font-bold mb-5"
+        className="text-center text-2xl md:text-2xl lg:text-3xl text-blue-600 font-bold mb-5"
       >
           Contact Book
       </h1>

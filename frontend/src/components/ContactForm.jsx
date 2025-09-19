@@ -44,7 +44,7 @@ function ContactForm() {
 
     return (
         <div>
-            <h2 className='text-left text-green-500 text-base sm:text-lg md:text-xl lg:text-lg font-bold mb-3'>
+            <h2 className='text-left text-green-500 text-xl md:text-xl lg:text-lg font-bold mb-3'>
                 Fill this Form and Add Contact
             </h2>
 

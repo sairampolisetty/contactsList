@@ -61,13 +61,13 @@ function ContactList() {
                         </thead>
                         <tbody>
                             {pageContacts.map(contact => (
-                                <tr key={contact._id} className="hover:bg-blue-50 transition">
+                                <tr key={contact._id}>
                                     <td className="border px-4 py-2">{contact.name}</td>
                                     <td className="border px-4 py-2">{contact.email}</td>
                                     <td className="border px-4 py-2">{contact.phone}</td>
                                     <td className="border px-4 py-2 text-center">
                                         <button
-                                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded shadow transition"
+                                            className="bg-red-500 cursor-pointer text-white font-bold py-1 px-2 rounded shadow transition"
                                             onClick={() => handleDelete(contact._id)}
                                         >
                                             Delete
