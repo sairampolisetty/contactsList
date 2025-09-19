@@ -11,32 +11,31 @@ function ContactList() {
         fetchContacts();
     }, []);
 
+    useEffect(() => {
+        const arrContacts = Array.isArray(contacts) ? contacts : [];
+        const totalPages = Math.max(1, Math.ceil(arrContacts.length / limit));
+        if (page > totalPages) setPage(totalPages);
+    }, [contacts, page, limit]);
+
     async function fetchContacts() {
         setIsLoading(true);
         try {
             const res = await fetch('https://contactslist-6v83.onrender.com/contacts');
             const data = await res.json();
-            // Debug API data shape
-            console.log('Fetched data:', data);
-            // Always use array, no matter the API format (array or {contacts: []})
             setContacts(Array.isArray(data) ? data : (data.contacts || []));
-        } catch (error) {
-            setContacts([]); // fallback to empty if fetch fails
+        } catch {
+            setContacts([]);
         }
         setIsLoading(false);
     }
 
-    // Handle delete action
     async function handleDelete(id) {
         const res = await fetch(`https://contactslist-6v83.onrender.com/contacts/${id}`, { method: 'DELETE' });
         if (res.ok) {
             setContacts(contacts.filter(contact => contact._id !== id));
-        } else {
-            alert('Failed to delete contact');
         }
     }
 
-    // Always work only with an array!
     const arrContacts = Array.isArray(contacts) ? contacts : [];
     const totalPages = Math.max(1, Math.ceil(arrContacts.length / limit));
     const startIndex = (page - 1) * limit;
@@ -67,7 +66,7 @@ function ContactList() {
                                     <td className="border px-4 py-2">{contact.phone}</td>
                                     <td className="border px-4 py-2 text-center">
                                         <button
-                                            className="bg-red-500 cursor-pointer text-white font-bold py-1 px-2 rounded shadow transition"
+                                            className="bg-red-500 text-white font-bold py-1 px-2 rounded"
                                             onClick={() => handleDelete(contact._id)}
                                         >
                                             Delete
@@ -79,7 +78,6 @@ function ContactList() {
                     </table>
                 </div>
             )}
-
             <div className="flex gap-2 mt-2 justify-center">
                 <button
                     onClick={() => setPage(page - 1)}
