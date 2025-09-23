@@ -48,7 +48,7 @@ function ContactList() {
       {isLoading ? (
         <div className="text-center py-10 text-blue-400 font-bold"><Loader/></div>
       ) : (
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-row overflow-auto scrollbar-hide md:flex-col gap-6">
           {pageContacts.length === 0 ? (
             <div className="text-gray-400 italic text-center">No contacts found.</div>
           ) : (
@@ -75,7 +75,7 @@ function ContactList() {
                   title="Delete"
                   aria-label="Delete"
                   onClick={() => handleDelete(contact._id)}
-                  className="cursor-pointer text-red-500 hover:text-white hover:bg-red-500 border border-red-200 p-2 px-4 rounded-md transition font-bold"
+                  className="align-items-end cursor-pointer text-red-500 hover:text-white hover:bg-red-500 border border-red-200 p-2 px-4 rounded-md transition font-bold"
                 >
                   Delete
                 </button>

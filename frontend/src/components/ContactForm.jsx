@@ -71,7 +71,7 @@ function ContactForm() {
           <input
             className="flex-1 p-3 border border-blue-200 rounded-md focus:ring-2 focus:ring-blue-200 transition"
             id="phone"
-            type="text"
+            type="number"
             placeholder="Phone"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
